@@ -9,5 +9,7 @@ sudo k3s kubectl create serviceaccount --namespace jenkins tiller
 sudo k3s kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=jenkins:tiller
 sudo k3s kubectl patch deploy --namespace jenkins tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
 helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-helm install jenkins bitnami/jenkins
+helm install jenkins stable/jenkins
+sudo k3s kubectl apply -f ingress.yaml -f service.yaml
